@@ -25,6 +25,10 @@ yarn-error.log*
 # Yarn Integrity file
 .yarn-integrity
 
+# Local tooling
+/.atl/
+/.codebase-memory/
+
 # Yarn directory
 .yarn/*
 !.yarn/patches

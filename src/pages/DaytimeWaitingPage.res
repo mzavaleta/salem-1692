@@ -19,6 +19,8 @@ let make = (): React.element => {
     <p className="text-centered">
       {React.string(t("Waiting for the host to announce nighttime..."))}
     </p>
+    <Spacer />
+    <GameIdWithQr gameId={gameState.gameType->Utils.ifSlaveGetGameId} />
     <Spacer verticalFill=true />
     <Button
       label={t("Abort")}

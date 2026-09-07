@@ -70,9 +70,11 @@ let table = Dict.fromArray([
   ("Stop Hosting", `호스팅을 중단하세요`),
   ("Malformed code", `잘못된 코드`),
   ("Game not found", `게임을 찾을 수 없습니다`),
+  ("The host ended the game", `호스트가 게임을 종료했습니다`),
   ("Not connected", `연결되지 않은`),
   ("Connecting...", `연결 중...`),
   ("Connected.", `연결되었습니다.`),
+  ("Copied!", `복사됨!`),
   ("Leave guest mode", `게스트 모드 나가기`),
   (
     "You can host a game so that players can join from another smartphone.",

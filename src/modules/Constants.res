@@ -35,6 +35,7 @@ let codeUrl = "https://github.com/ruittenb/salem-1692/"
 
 let localStoragePrefix = "salem1692"
 let localStorageGameStateKey = ".gameState"
+let localStorageSessionKey = ".session"
 
 // game parameters
 

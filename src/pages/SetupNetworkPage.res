@@ -17,16 +17,24 @@ let inputElementId = "formGameId"
  * Master functions
  */
 let startHosting = (setDbConnectionStatus, gameState, setGameState) => {
-  logDebug(pm ++ "Starting hosting")
   setDbConnectionStatus(_prev => ConnectingAsMaster)
   let oldGameState = gameState
+  // Reuse existing gameId when resuming a host session; only generate a fresh one from StandAlone
+  let gameId = switch gameState.gameType {
+  | Master(existingId) =>
+    logDebug(pm ++ "Resuming host session " ++ existingId)
+    existingId
+  | _ =>
+    let newId = GameId.generateGameId()
+    logDebug(pm ++ "Starting hosting, new game " ++ newId)
+    newId
+  }
+  let newGameState = {
+    ...gameState,
+    gameType: Master(gameId),
+  }
   FirebaseClient.connect()
   ->Promise.then(dbConnection => {
-    let newGameId = GameId.generateGameId()
-    let newGameState = {
-      ...gameState,
-      gameType: Master(newGameId),
-    }
     setGameState(_prev => newGameState)
     FirebaseClient.createGame(dbConnection, newGameState)->Promise.then(() => {
       setDbConnectionStatus(_prev => Connected(dbConnection))
@@ -48,6 +56,7 @@ let stopHosting = (dbConnectionStatus, setDbConnectionStatus, gameState, setGame
     FirebaseClient.deleteGame(dbConnection, gameId)
     FirebaseClient.disconnect(dbConnection)
   })
+  LocalStorage.clearSession()
   setDbConnectionStatus(_prev => NotConnected)
   setGameState(prevGameState => {
     ...prevGameState,
@@ -92,6 +101,7 @@ let leaveGame = (dbConnectionStatus, setDbConnectionStatus, gameState, setGameSt
     FirebaseClient.leaveGame(dbConnection, gameId)
     FirebaseClient.disconnect(dbConnection)
   })
+  LocalStorage.clearSession()
   setDbConnectionStatus(_prev => NotConnected)
   setGameState(prevGameState => {
     ...prevGameState,
@@ -200,11 +210,9 @@ let getModusOperandi = (
         )}
       </p>
       <Spacer />
-      <div className="input-and-icon">
-        <div className="id-input"> {React.string(gameId)} </div>
-        <QrIcon mode={QrIcon.Scannable(gameId)} />
+      <GameIdWithQr gameId>
         <Bubble dir=North> {React.string(t("Connected."))} </Bubble>
-      </div>
+      </GameIdWithQr>
       <Button
         label={t("Play Game")}
         className="icon-right icon-forw"

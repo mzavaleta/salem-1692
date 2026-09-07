@@ -13,6 +13,27 @@ let make = (~subPage: page): React.element => {
   let (gameState, setGameState) = React.useContext(GameStateContext.context)
   // turn state
   let (turnState, setTurnState) = React.useContext(TurnStateContext.context)
+  let t = Translator.getTranslator(gameState.language)
+
+  let (showHostEndedBubble, setShowHostEndedBubble) = React.useState(_ => false)
+
+  // Distinguish "host ended the game" from "game not found" on a null snapshot
+  let validDbRecordReceived = ref(false)
+
+  let endGameSession = () => {
+    Utils.logDebugBlue(p ++ "Host ended the game")
+    Utils.ifSlaveAndConnected(dbConnectionStatus, gameState.gameType, (dbConnection, gameId) => {
+      FirebaseClient.stopListening(dbConnection, gameId, GameSubject)
+      FirebaseClient.disconnect(dbConnection)
+    })
+    setDbConnectionStatus(_prev => NotConnected)
+    setGameState(prevGameState => {
+      ...prevGameState,
+      gameType: StandAlone,
+    })
+    LocalStorage.clearSession()
+    setShowHostEndedBubble(_prev => true)
+  }
 
   React.useEffect0(() => {
     Utils.logDebugGreen(p ++ "Mounted")
@@ -26,8 +47,12 @@ let make = (~subPage: page): React.element => {
           switch maybeDbRecordStr {
           | None => {
               Utils.logDebug(p ++ "Received null on listener")
-              setDbConnectionStatus(_prev => NotConnected)
-              goToPage(_prev => SetupNetworkNoGame)
+              if validDbRecordReceived.contents {
+                endGameSession()
+              } else {
+                setDbConnectionStatus(_prev => NotConnected)
+                goToPage(_prev => SetupNetworkNoGame)
+              }
             }
           | Some(dbRecordStr) =>
             switch dbRecordStr->JSON.String->dbRecord_decode {
@@ -41,6 +66,7 @@ let make = (~subPage: page): React.element => {
               )
             | Ok(dbRecord) => {
                 Utils.logDebug(p ++ "Received dbRecord")
+                validDbRecordReceived := true
                 goToPage(_prev => dbRecord.masterPhase->FirebaseClient.getPage)
                 setGameState(
                   prevGameState => {
@@ -177,5 +203,10 @@ let make = (~subPage: page): React.element => {
   <>
     <WakeNode />
     <div id={pageWrapperId} className="page justify-start"> {pageElement} </div>
+    <If condition={showHostEndedBubble}>
+      <Mask onClick={_event => goToPage(_prev => Title)}>
+        <Bubble> {React.string(t("The host ended the game"))} </Bubble>
+      </Mask>
+    </If>
   </>
 }

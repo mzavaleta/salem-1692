@@ -68,6 +68,7 @@ type gameState = {
 }
 type gameStateSetter = (gameState => gameState) => unit
 
+@spice
 type turnState = {
   nrWitches: NumerusCodec.t,
   nightType: NightTypeCodec.t,
@@ -103,6 +104,61 @@ type page =
   | DaytimeReveal
   | DaytimeRevealNoConfess
   | Close
+
+let pageToString = (page: page): string =>
+  switch page {
+  | Title => "Title"
+  | Setup => "Setup"
+  | SetupLanguage => "SetupLanguage"
+  | SetupMusic => "SetupMusic"
+  | SetupPlayers => "SetupPlayers"
+  | SetupNetwork => "SetupNetwork"
+  | SetupNetworkNoGame => "SetupNetworkNoGame"
+  | Credits => "Credits"
+  | Daytime => "Daytime"
+  | NightDawnOneWitch => "NightDawnOneWitch"
+  | NightDawnMoreWitches => "NightDawnMoreWitches"
+  | NightOtherWithConstable => "NightOtherWithConstable"
+  | NightOtherNoConstable => "NightOtherNoConstable"
+  | DaytimeWaiting => "DaytimeWaiting"
+  | NightWaiting => "NightWaiting"
+  | NightChoiceWitches => "NightChoiceWitches"
+  | NightConfirmWitches => "NightConfirmWitches"
+  | NightChoiceConstable => "NightChoiceConstable"
+  | NightConfirmConstable => "NightConfirmConstable"
+  | DaytimeConfess => "DaytimeConfess"
+  | DaytimeReveal => "DaytimeReveal"
+  | DaytimeRevealNoConfess => "DaytimeRevealNoConfess"
+  | Close => "Close"
+  }
+
+let pageOfString = (s: string): option<page> =>
+  switch s {
+  | "Title" => Some(Title)
+  | "Setup" => Some(Setup)
+  | "SetupLanguage" => Some(SetupLanguage)
+  | "SetupMusic" => Some(SetupMusic)
+  | "SetupPlayers" => Some(SetupPlayers)
+  | "SetupNetwork" => Some(SetupNetwork)
+  | "SetupNetworkNoGame" => Some(SetupNetworkNoGame)
+  | "Credits" => Some(Credits)
+  | "Daytime" => Some(Daytime)
+  | "NightDawnOneWitch" => Some(NightDawnOneWitch)
+  | "NightDawnMoreWitches" => Some(NightDawnMoreWitches)
+  | "NightOtherWithConstable" => Some(NightOtherWithConstable)
+  | "NightOtherNoConstable" => Some(NightOtherNoConstable)
+  | "DaytimeWaiting" => Some(DaytimeWaiting)
+  | "NightWaiting" => Some(NightWaiting)
+  | "NightChoiceWitches" => Some(NightChoiceWitches)
+  | "NightConfirmWitches" => Some(NightConfirmWitches)
+  | "NightChoiceConstable" => Some(NightChoiceConstable)
+  | "NightConfirmConstable" => Some(NightConfirmConstable)
+  | "DaytimeConfess" => Some(DaytimeConfess)
+  | "DaytimeReveal" => Some(DaytimeReveal)
+  | "DaytimeRevealNoConfess" => Some(DaytimeRevealNoConfess)
+  | "Close" => Some(Close)
+  | _ => None
+  }
 
 type navigationSetter = (option<page> => option<page>) => unit
 

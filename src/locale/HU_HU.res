@@ -68,9 +68,11 @@ let table = Dict.fromArray([
   ("Stop Hosting", `Hosting leállítása`),
   ("Malformed code", `Hibás kód`),
   ("Game not found", `A játék nem található`),
+  ("The host ended the game", `A házigazda befejezte a játékot`),
   ("Not connected", `Nincs kapcsolat`),
   ("Connecting...", `Csatlakozás...`),
   ("Connected.", `Csatlakoztatva.`),
+  ("Copied!", `Másolva!`),
   ("Leave guest mode", `Vendégmód elhagyása`),
   (
     "You can host a game so that players can join from another smartphone.",

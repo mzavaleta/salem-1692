@@ -68,9 +68,11 @@ let table = Dict.fromArray([
   ("Stop Hosting", "Parar de hospedar"),
   ("Malformed code", `Código malformado`),
   ("Game not found", `Jogo não encontrado`),
+  ("The host ended the game", `O anfitrião encerrou o jogo`),
   ("Not connected", `Não conectado`),
   ("Connecting...", "Conectando..."),
   ("Connected.", "Conectado."),
+  ("Copied!", "Copiado!"),
   ("Leave guest mode", "Sair do modo visitante"),
   (
     "You can host a game so that players can join from another smartphone.",
