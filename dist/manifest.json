@@ -75,8 +75,8 @@
       "type": "image/png"
     },
     {
-      "src": "images/favicon-196-monochrome.png",
-      "sizes": "196x196",
+      "src": "images/favicon-512-monochrome.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "monochrome"
     },
@@ -97,7 +97,7 @@
     {
       "src": "screenshots/1-title-en.jpg",
       "sizes": "1080x2340",
-      "type": "image/jpg",
+      "type": "image/jpeg",
       "platform": "narrow",
       "form_factor": "narrow",
       "label": "Main Menu"
@@ -105,7 +105,7 @@
     {
       "src": "screenshots/2-setup-players-en.jpg",
       "sizes": "1080x2340",
-      "type": "image/jpg",
+      "type": "image/jpeg",
       "platform": "narrow",
       "form_factor": "narrow",
       "label": "Player Configuration"
@@ -113,7 +113,7 @@
     {
       "src": "screenshots/3-setup-network-en.jpg",
       "sizes": "1080x2340",
-      "type": "image/jpg",
+      "type": "image/jpeg",
       "platform": "narrow",
       "form_factor": "narrow",
       "label": "Connect Multiple Players to the same Game"
@@ -121,7 +121,7 @@
     {
       "src": "screenshots/4-night-decide-en.jpg",
       "sizes": "1080x2340",
-      "type": "image/jpg",
+      "type": "image/jpeg",
       "platform": "narrow",
       "form_factor": "narrow",
       "label": "Night Screen"
